@@ -1,30 +1,8 @@
----
-title: "MPR Compiler"
-author: "Edward Marco Moktar"
-date: "12/20/2021"
-output: html_document
----
-
-
-
-
-```{r}
 library("readxl")
 library("xlsx")
-
-```
-
-Import the data
-```{r}
-#Update file names before running
 stat.bis<- as.data.frame(read.csv("gs_stat_bis_monthly_20211101_20211130.csv", stringsAsFactors = FALSE))
 AoOtpSum <- read_excel("AoOtpSum_202111.xls")
 AoTimeSum <- read_excel("AoTimeSum_202111.xls")
-
-```
-
-Create the output dataframe
-```{r}
 #Create empty data frame of size 32 x 9 (32 variables x 9 airlines)
 df <- data.frame(matrix(NA, nrow = 9, ncol = 24))
 
@@ -39,13 +17,7 @@ df[,1] <- c("AF", "CI", "CX", "EK", "EY", "GA", "KL", "LD", "UL")
 
 #Set row names too
 row.names(df) <- df[,1]
-```
 
-### Let's process the data one by one 
-#### 1. Let's start with AoOtpSum data
-We need to take column 2, 3, 4, 5, 6 for:
-  "Total_Arriving_Flights", "Flights_Arriving_on_Time", "Flights_Arriving_plus_15_mins", "Arrival_OTP_vs_STA", "Arrival_OTP_vs_STA_plus_15"
-```{r}
 #Let's pre-process the AoOtpSum data to make it looks nicer
 colnames(AoOtpSum) <- AoOtpSum[4,]
 AoOtpSum<-AoOtpSum[-c(1:4),]
@@ -63,12 +35,6 @@ for (airline_code in df[,1]){
   df[airline_code,3] <- AoOtpSum[airline.index,3]
   df[airline_code,4] <- AoOtpSum[airline.index,5]
 }
-```
-
-#### 2. Let's repeat this for  with AoTimeSum data
-We need to take column 2, 3, 4 for:
-  "Minutes_recovered","Minutes_saved","Minutes_lost"
-```{r}
 #Let's pre-process the AoTimeSum data to make it looks nicer
 colnames(AoTimeSum) <- AoTimeSum[4,]
 AoTimeSum<-AoTimeSum[-c(1:4),]
@@ -85,12 +51,6 @@ for (airline_code in df[,1]){
   df[airline_code,14] <- AoTimeSum[airline.index,2]
   df[airline_code,15] <- AoTimeSum[airline.index,4]
 }
-```
-
-#### 3. Lastly, let's repeat this for  with stat.bis data
-We need to take column 2, 3, 4 for:
-  "Minutes_recovered","Minutes_saved","Minutes_lost"
-```{r}
 #Let's pre-process the AoTimeSum data to make it looks nicer
 #stat.bis[1,]
 colnames(stat.bis) <- stat.bis[1,]
@@ -118,13 +78,7 @@ for (airline_code in df[,1]){
   df[airline_code,21] <- stat.bis[airline.index,3]
   df[airline_code,23] <- stat.bis[airline.index,4]
 }
-```
-
-### Export!
-```{r}
 #Let's convert all NA to 0 for easy reading
 df[is.na(df)] <- 0
 
 write.xlsx(df, file="Compiled_data.xlsx")
-```
-
