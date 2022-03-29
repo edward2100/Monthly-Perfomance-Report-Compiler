@@ -15,6 +15,7 @@ library("xlsx")
 
 Import the data
 ```{r}
+#Update file names before running
 stat.bis<- as.data.frame(read.csv("gs_stat_bis_monthly_20211101_20211130.csv", stringsAsFactors = FALSE))
 AoOtpSum <- read_excel("AoOtpSum_202111.xls")
 AoTimeSum <- read_excel("AoTimeSum_202111.xls")
