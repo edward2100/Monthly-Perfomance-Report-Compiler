@@ -11,7 +11,6 @@ output: html_document
 ```{r}
 library("readxl")
 library("xlsx")
-library("dplyr")
 rm(list = ls())
 ```
 
