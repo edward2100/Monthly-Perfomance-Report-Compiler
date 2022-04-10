@@ -105,8 +105,8 @@ str(stat.bis)
 which(stat.bis$AIRLINE=="AF")
 stat.bis[1,8]
 
-stat.bis[13,] <- 0
-stat.bis[13,1] <- "LD"
+stat.bis[nrow(stat.bis)+1,] <- 0
+stat.bis[nrow(stat.bis)+1,1] <- "LD"
 
 #For loops
 
